@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: site-account-management
+
+  profiles:
+    active: default
+
+
+  config:
+    import: optional:configserver:http://localhost:8888
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+
+mongodb:
+  uri: mongodb://localhost:27017
+
+  databases:
+    metadata: metadata
+    aggregation: aggregation
+    realtime: realtime
+
+server:
+  port: 8091

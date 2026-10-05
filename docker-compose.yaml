@@ -1,0 +1,20 @@
+services:
+  database: # <-- "database" is custom, not a Docker Compose reserved/conventional name. "database" is the service name that you chose. services: \n mongodb:
+    container_name: mongodb_container
+    image: mongo:7
+    ports:
+      - "27018:27017"
+    networks:
+      - energy-platform-network
+    volumes:
+      - mongodb-data-energy-platform:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongodb-data-energy-platform:
+
+networks:
+  energy-platform-network:
+    driver: bridge
+
+
