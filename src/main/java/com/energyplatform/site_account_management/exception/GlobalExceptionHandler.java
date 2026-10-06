@@ -3,6 +3,7 @@ package com.energyplatform.site_account_management.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
@@ -39,6 +40,17 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<String> handleAuthorizationDeniedException(
+            AuthorizationDeniedException exception) {
+
+        log.warn("Access denied: {}", exception.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("Access denied");
+    }
+
     /**
      * Handles invalid HTTP request bodies.
      *
@@ -48,6 +60,7 @@ public class GlobalExceptionHandler {
      * - Cannot deserialize JSON into an object
      * - Missing/invalid request body
      */
+
     @ExceptionHandler(ServerWebInputException.class)
     public ResponseEntity<String> handleWebInputException(
             ServerWebInputException exception) {
